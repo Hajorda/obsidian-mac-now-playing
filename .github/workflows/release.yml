@@ -27,13 +27,6 @@ jobs:
       - name: Build plugin
         run: npm run build
 
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: |
-            main.js
-            manifest.json
-            styles.css
 
       - name: Create Release
         env:
