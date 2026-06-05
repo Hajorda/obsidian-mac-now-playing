@@ -10,6 +10,7 @@ export interface MacNowPlayingSettings {
 	iconStyle: 'eq' | 'vinyl' | 'emoji' | 'none';
 	showAlbumArt: boolean;
 	showProgressBar: boolean;
+	useSlidingText: boolean;
 }
 
 export const DEFAULT_SETTINGS: MacNowPlayingSettings = {
@@ -20,7 +21,8 @@ export const DEFAULT_SETTINGS: MacNowPlayingSettings = {
 	maxTitleLength: 30,
 	iconStyle: 'vinyl',
 	showAlbumArt: true,
-	showProgressBar: true
+	showProgressBar: true,
+	useSlidingText: true
 }
 
 export class MacNowPlayingSettingTab extends PluginSettingTab {
@@ -130,6 +132,17 @@ export class MacNowPlayingSettingTab extends PluginSettingTab {
 				.setValue(this.plugin.settings.showProgressBar)
 				.onChange(async (value) => {
 					this.plugin.settings.showProgressBar = value;
+					await this.plugin.saveSettings();
+					this.plugin.renderPopoverContent();
+				}));
+
+		new Setting(containerEl)
+			.setName('Use Sliding Text')
+			.setDesc('Smoothly scroll long text that does not fit inside the popover instead of cutting it off.')
+			.addToggle(toggle => toggle
+				.setValue(this.plugin.settings.useSlidingText)
+				.onChange(async (value) => {
+					this.plugin.settings.useSlidingText = value;
 					await this.plugin.saveSettings();
 					this.plugin.renderPopoverContent();
 				}));

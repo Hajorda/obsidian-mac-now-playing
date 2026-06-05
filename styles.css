@@ -209,3 +209,24 @@
 	width: 0%;
 	transition: width 1s linear;
 }
+
+/* Sliding Text (Marquee) */
+.spotify-marquee-container {
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.spotify-marquee-content {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.is-sliding {
+	animation: spotify-slide 6s linear infinite alternate;
+}
+
+@keyframes spotify-slide {
+	0%, 15% { transform: translateX(0); }
+	85%, 100% { transform: translateX(var(--slide-dist)); }
+}

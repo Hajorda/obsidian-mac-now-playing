@@ -81,9 +81,15 @@ export default class MacNowPlayingPlugin extends Plugin {
 
 		// Track Info
 		const infoContainer = mainContent.createDiv('spotify-track-info');
-		infoContainer.createDiv('spotify-track-name');
-		infoContainer.createDiv('spotify-track-artist');
-		infoContainer.createDiv('spotify-track-album');
+		
+		const nameContainer = infoContainer.createDiv('spotify-track-name spotify-marquee-container');
+		nameContainer.createSpan('spotify-marquee-content');
+		
+		const artistContainer = infoContainer.createDiv('spotify-track-artist spotify-marquee-container');
+		artistContainer.createSpan('spotify-marquee-content');
+		
+		const albumContainer = infoContainer.createDiv('spotify-track-album spotify-marquee-container');
+		albumContainer.createSpan('spotify-marquee-content');
 
 		// Progress Bar
 		const progressContainer = this.popoverEl.createDiv('spotify-progress-container');
@@ -153,9 +159,13 @@ export default class MacNowPlayingPlugin extends Plugin {
 	renderPopoverContent() {
 		if (!this.popoverEl) return;
 		
-		const nameEl = this.popoverEl.querySelector('.spotify-track-name');
-		const artistEl = this.popoverEl.querySelector('.spotify-track-artist');
-		const albumEl = this.popoverEl.querySelector('.spotify-track-album');
+		const nameContainer = this.popoverEl.querySelector('.spotify-track-name');
+		const nameEl = nameContainer?.querySelector('.spotify-marquee-content');
+		const artistContainer = this.popoverEl.querySelector('.spotify-track-artist');
+		const artistEl = artistContainer?.querySelector('.spotify-marquee-content');
+		const albumContainer = this.popoverEl.querySelector('.spotify-track-album');
+		const albumEl = albumContainer?.querySelector('.spotify-marquee-content');
+		
 		const playBtn = this.popoverEl.querySelector('.spotify-play-btn');
 		
 		const artContainer = this.popoverEl.querySelector('.spotify-art-container') as HTMLElement;
@@ -169,6 +179,12 @@ export default class MacNowPlayingPlugin extends Plugin {
 		if (nameEl) nameEl.textContent = this.currentTrack.name;
 		if (artistEl) artistEl.textContent = this.currentTrack.artist;
 		if (albumEl) albumEl.textContent = this.currentTrack.album;
+
+		window.requestAnimationFrame(() => {
+			this.applyMarquee(nameContainer, nameEl);
+			this.applyMarquee(artistContainer, artistEl);
+			this.applyMarquee(albumContainer, albumEl);
+		});
 
 		// Album Art Toggle
 		if (this.settings.showAlbumArt && this.currentTrack.artworkUrl) {
@@ -202,6 +218,22 @@ export default class MacNowPlayingPlugin extends Plugin {
 		if (playBtn) {
 			playBtn.empty();
 			setIcon(playBtn as HTMLElement, this.currentTrack.state === 'playing' ? 'pause' : 'play');
+		}
+	}
+
+	applyMarquee(container: Element | null | undefined, content: Element | null | undefined) {
+		if (!container || !content) return;
+		
+		content.removeClass('is-sliding');
+		
+		if (this.settings.useSlidingText) {
+			const cWidth = container.clientWidth;
+			const sWidth = content.scrollWidth;
+			
+			if (sWidth > cWidth && cWidth > 0) {
+				content.addClass('is-sliding');
+				(content as HTMLElement).setCssProps({ "--slide-dist": `-${sWidth - cWidth}px` });
+			}
 		}
 	}
 
