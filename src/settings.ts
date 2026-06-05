@@ -11,6 +11,7 @@ export interface MacNowPlayingSettings {
 	showAlbumArt: boolean;
 	showProgressBar: boolean;
 	useSlidingText: boolean;
+	statusBarPosition: 'left' | 'right';
 }
 
 export const DEFAULT_SETTINGS: MacNowPlayingSettings = {
@@ -22,7 +23,8 @@ export const DEFAULT_SETTINGS: MacNowPlayingSettings = {
 	iconStyle: 'vinyl',
 	showAlbumArt: true,
 	showProgressBar: true,
-	useSlidingText: true
+	useSlidingText: true,
+	statusBarPosition: 'right'
 }
 
 export class MacNowPlayingSettingTab extends PluginSettingTab {
@@ -145,6 +147,18 @@ export class MacNowPlayingSettingTab extends PluginSettingTab {
 					this.plugin.settings.useSlidingText = value;
 					await this.plugin.saveSettings();
 					this.plugin.renderPopoverContent();
+				}));
+		new Setting(containerEl)
+			.setName('Status Bar Position')
+			.setDesc('Move the plugin to the far left of the status bar, or keep it on the right with the other icons.')
+			.addDropdown(drop => drop
+				.addOption('right', 'Right (Default)')
+				.addOption('left', 'Far Left')
+				.setValue(this.plugin.settings.statusBarPosition)
+				.onChange(async (value) => {
+					this.plugin.settings.statusBarPosition = value as 'left' | 'right';
+					await this.plugin.saveSettings();
+					this.plugin.renderStatusBar();
 				}));
 	}
 }

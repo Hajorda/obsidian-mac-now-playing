@@ -230,3 +230,8 @@
 	0%, 15% { transform: translateX(0); }
 	85%, 100% { transform: translateX(var(--slide-dist)); }
 }
+
+.spotify-align-left {
+	order: -1;
+	margin-right: auto !important;
+}

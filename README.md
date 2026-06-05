@@ -15,6 +15,7 @@ Clicking the status bar item reveals a interactive popover with album art, a liv
 - **Customizable:**
   - Choose your status bar icon (Animated EQ Bars, Spinning Vinyl 💿, or Static Emoji 🎵).
   - Customize the display format (e.g., `{{title}} - {{artist}}`).
+  - Choose your Status Bar Position (Far Left or Right).
   - Set a maximum title length to keep your status bar clean.
   - Automatically hide the plugin when music is paused.
   - Turn off the Album Art or Progress Bar for a minimalist popover.
@@ -42,6 +43,8 @@ You can configure the plugin in the Obsidian settings under "Mac Now Playing":
 - **Refresh Interval:** Adjust how often the plugin polls for new songs (1-10 seconds).
 - **Hide When Paused:** Keep your status bar tidy by hiding the track when no music is playing.
 - **Show Album Art / Progress Bar:** Toggle the visual enhancements inside the popover.
+- **Use Sliding Text:** Smoothly scrolls long track names inside the popover instead of cutting them off with `...`.
+- **Status Bar Position:** Force the status bar item to sit on the far left side of the screen instead of the default right side.
 
 ## Development
 

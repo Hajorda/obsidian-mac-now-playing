@@ -303,6 +303,12 @@ export default class MacNowPlayingPlugin extends Plugin {
 		displayStr = displayStr.replace('{{album}}', this.currentTrack.album);
 
 		textEl.setText(` ${displayStr}`);
+		
+		if (this.settings.statusBarPosition === 'left') {
+			this.statusBarItemEl.addClass('spotify-align-left');
+		} else {
+			this.statusBarItemEl.removeClass('spotify-align-left');
+		}
 	}
 
 	updateNowPlaying() {

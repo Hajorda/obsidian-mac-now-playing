@@ -1,7 +1,7 @@
 {
 	"id": "mac-now-playing",
 	"name": "Mac Now Playing",
-	"version": "1.0.4",
+	"version": "1.0.2",
 	"minAppVersion": "1.0.0",
 	"description": "Displays the currently playing Spotify song in the status bar on Mac.",
 	"author": "Hajorda",
