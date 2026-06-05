@@ -135,11 +135,9 @@ export default class MacNowPlayingPlugin extends Plugin {
 		const popoverWidth = this.settings.showAlbumArt ? 240 : 180;
 		const padding = 10;
 		
-		this.popoverEl.setCssProps({
-			"width": `${popoverWidth}px`,
-			"left": `${rect.right - popoverWidth}px`,
-			"bottom": `${window.innerHeight - rect.top + padding}px`
-		});
+		this.popoverEl.style.setProperty('--popover-width', `${popoverWidth}px`);
+		this.popoverEl.style.setProperty('--popover-left', `${rect.right - popoverWidth}px`);
+		this.popoverEl.style.setProperty('--popover-bottom', `${window.innerHeight - rect.top + padding}px`);
 		
 		this.renderPopoverContent();
 	}
@@ -198,7 +196,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 
 		// Progress Bar Toggle
 		if (this.settings.showProgressBar && this.currentTrack.durationMs > 0) {
-			progressContainer.setCssProps({ "display": "flex" });
+			progressContainer.show();
 			
 			const totalSecs = Math.floor(this.currentTrack.durationMs / 1000);
 			const currentSecs = Math.floor(this.currentTrack.positionSec);
@@ -210,7 +208,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 			if (pct > 100) pct = 100;
 			if (pct < 0) pct = 0;
 			
-			if (progressFill) progressFill.setCssProps({ "width": `${pct}%` });
+			if (progressFill) progressFill.style.setProperty('--progress-width', `${pct}%`);
 		} else {
 			progressContainer.hide();
 		}
@@ -270,7 +268,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 			return;
 		}
 
-		this.statusBarItemEl.setCssProps({ "display": "flex" });
+		this.statusBarItemEl.show();
 		this.statusBarItemEl.empty();
 
 		if (this.settings.iconStyle !== 'none') {
