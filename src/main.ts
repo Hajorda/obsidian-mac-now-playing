@@ -224,16 +224,25 @@ export default class MacNowPlayingPlugin extends Plugin {
 	applyMarquee(container: Element | null | undefined, content: Element | null | undefined) {
 		if (!container || !content) return;
 		
-		content.removeClass('is-sliding');
-		
 		if (this.settings.useSlidingText) {
 			const cWidth = container.clientWidth;
 			const sWidth = content.scrollWidth;
 			
 			if (sWidth > cWidth && cWidth > 0) {
-				content.addClass('is-sliding');
-				(content as HTMLElement).setCssProps({ "--slide-dist": `-${sWidth - cWidth}px` });
+				const dist = `-${sWidth - cWidth}px`;
+				const el = content as HTMLElement;
+				// Only update if it changed to prevent resetting the animation loop
+				if (el.style.getPropertyValue('--slide-dist') !== dist || !content.hasClass('is-sliding')) {
+					content.addClass('is-sliding');
+					el.setCssProps({ "--slide-dist": dist });
+				}
+			} else {
+				content.removeClass('is-sliding');
+				(content as HTMLElement).style.removeProperty('--slide-dist');
 			}
+		} else {
+			content.removeClass('is-sliding');
+			(content as HTMLElement).style.removeProperty('--slide-dist');
 		}
 	}
 
