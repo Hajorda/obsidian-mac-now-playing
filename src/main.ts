@@ -135,9 +135,11 @@ export default class MacNowPlayingPlugin extends Plugin {
 		const popoverWidth = this.settings.showAlbumArt ? 240 : 180;
 		const padding = 10;
 		
-		this.popoverEl.style.setProperty('--popover-width', `${popoverWidth}px`);
-		this.popoverEl.style.setProperty('--popover-left', `${rect.right - popoverWidth}px`);
-		this.popoverEl.style.setProperty('--popover-bottom', `${window.innerHeight - rect.top + padding}px`);
+		this.popoverEl.setCssProps({
+			'--popover-width': `${popoverWidth}px`,
+			'--popover-left': `${rect.right - popoverWidth}px`,
+			'--popover-bottom': `${window.innerHeight - rect.top + padding}px`,
+		});
 		
 		this.renderPopoverContent();
 	}
@@ -208,7 +210,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 			if (pct > 100) pct = 100;
 			if (pct < 0) pct = 0;
 			
-			if (progressFill) progressFill.style.setProperty('--progress-width', `${pct}%`);
+			if (progressFill) progressFill.setCssProps({ '--progress-width': `${pct}%` });
 		} else {
 			progressContainer.hide();
 		}
