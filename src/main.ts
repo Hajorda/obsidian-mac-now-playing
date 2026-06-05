@@ -26,7 +26,6 @@ export default class MacNowPlayingPlugin extends Plugin {
 		this.statusBarItemEl = this.addStatusBarItem();
 		this.statusBarItemEl.setText('');
 		this.statusBarItemEl.addClass('spotify-status-bar');
-		this.statusBarItemEl.style.cursor = 'pointer';
 
 		this.createPopover();
 
@@ -35,7 +34,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 			this.togglePopover();
 		});
 
-		this.registerDomEvent(document, 'click', (e) => {
+		this.registerDomEvent(activeDocument, 'click', (e) => {
 			if (this.isOpen && !this.popoverEl.contains(e.target as Node)) {
 				this.closePopover();
 			}
@@ -51,7 +50,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, (await this.loadData()) as Partial<MacNowPlayingSettings>);
 	}
 
 	async saveSettings() {
@@ -69,7 +68,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 	}
 
 	createPopover() {
-		this.popoverEl = document.body.createDiv('spotify-popover');
+		this.popoverEl = activeDocument.body.createDiv('spotify-popover');
 		
 		const header = this.popoverEl.createDiv('spotify-popover-header');
 		header.setText('Now Playing');
@@ -128,11 +127,13 @@ export default class MacNowPlayingPlugin extends Plugin {
 		const rect = this.statusBarItemEl.getBoundingClientRect();
 		// We make the popover a bit wider if artwork is shown
 		const popoverWidth = this.settings.showAlbumArt ? 240 : 180;
-		this.popoverEl.style.width = `${popoverWidth}px`;
-		
 		const padding = 10;
-		this.popoverEl.style.left = `${rect.right - popoverWidth}px`;
-		this.popoverEl.style.bottom = `${window.innerHeight - rect.top + padding}px`;
+		
+		this.popoverEl.setCssProps({
+			"width": `${popoverWidth}px`,
+			"left": `${rect.right - popoverWidth}px`,
+			"bottom": `${window.innerHeight - rect.top + padding}px`
+		});
 		
 		this.renderPopoverContent();
 	}
@@ -171,17 +172,17 @@ export default class MacNowPlayingPlugin extends Plugin {
 
 		// Album Art Toggle
 		if (this.settings.showAlbumArt && this.currentTrack.artworkUrl) {
-			artContainer.style.display = 'block';
+			artContainer.show();
 			if (artImg.src !== this.currentTrack.artworkUrl) {
 				artImg.src = this.currentTrack.artworkUrl;
 			}
 		} else {
-			artContainer.style.display = 'none';
+			artContainer.hide();
 		}
 
 		// Progress Bar Toggle
 		if (this.settings.showProgressBar && this.currentTrack.durationMs > 0) {
-			progressContainer.style.display = 'flex';
+			progressContainer.setCssProps({ "display": "flex" });
 			
 			const totalSecs = Math.floor(this.currentTrack.durationMs / 1000);
 			const currentSecs = Math.floor(this.currentTrack.positionSec);
@@ -193,9 +194,9 @@ export default class MacNowPlayingPlugin extends Plugin {
 			if (pct > 100) pct = 100;
 			if (pct < 0) pct = 0;
 			
-			if (progressFill) progressFill.style.width = `${pct}%`;
+			if (progressFill) progressFill.setCssProps({ "width": `${pct}%` });
 		} else {
-			progressContainer.style.display = 'none';
+			progressContainer.hide();
 		}
 
 		if (playBtn) {
@@ -209,7 +210,7 @@ export default class MacNowPlayingPlugin extends Plugin {
 		const script = `osascript -e 'tell application "${appName}" to ${command}'`;
 		exec(script, (error) => {
 			if (!error) {
-				setTimeout(() => this.updateNowPlaying(), 300);
+				window.setTimeout(() => this.updateNowPlaying(), 300);
 			}
 		});
 	}
@@ -223,12 +224,12 @@ export default class MacNowPlayingPlugin extends Plugin {
 
 	renderStatusBar() {
 		if (!this.currentTrack.name || (this.settings.hideWhenPaused && this.currentTrack.state !== 'playing')) {
-			this.statusBarItemEl.style.display = 'none';
+			this.statusBarItemEl.hide();
 			if (this.isOpen) this.closePopover();
 			return;
 		}
 
-		this.statusBarItemEl.style.display = 'flex';
+		this.statusBarItemEl.setCssProps({ "display": "flex" });
 		this.statusBarItemEl.empty();
 
 		if (this.settings.iconStyle !== 'none') {
