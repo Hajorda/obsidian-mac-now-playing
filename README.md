@@ -1,35 +1,30 @@
 # Obsidian Mac Now Playing 🎵
 
-A sleek, native macOS plugin for Obsidian that displays your currently playing song (from Spotify or Apple Music) directly in your status bar. 
+A native macOS plugin for Obsidian that displays your currently playing song (from Spotify or Apple Music) directly in your status bar. 
 
-Clicking the status bar item reveals a beautiful interactive popover with album art, a live progress bar, and media controls—all without needing complex API keys or developer accounts!
+Clicking the status bar item reveals a interactive popover with album art, a live progress bar, and media controls—all without needing complex API keys or developer accounts.
 
-## ✨ Features
+## Features
 
 - **Zero Configuration:** Uses native macOS AppleScript. No Spotify Developer API keys, OAuth logins, or internet connections required. It just works.
-- **Support for Major Players:** Choose between **Spotify** or **Apple Music** in the settings.
+- **Support for Players:** Choose between **Spotify** or **Apple Music** in the settings.
 - **Interactive Popover:** Click the status bar to see:
-  - High-resolution Album Art (Spotify only)
+  - Album Art (Spotify only)
   - Live track progress bar with timestamps
   - Play/Pause, Next, and Previous media controls
-- **Highly Customizable:**
+- **Customizable:**
   - Choose your status bar icon (Animated EQ Bars, Spinning Vinyl 💿, or Static Emoji 🎵).
   - Customize the display format (e.g., `{{title}} - {{artist}}`).
   - Set a maximum title length to keep your status bar clean.
   - Automatically hide the plugin when music is paused.
   - Turn off the Album Art or Progress Bar for a minimalist popover.
 
-## 📸 Screenshots
+## Screenshots
 
-*(Replace these placeholders with actual screenshots of your plugin!)*
-
-![Status Bar Icon](images/statusbar-screenshot.png)
-*The animated spinning vinyl icon in the status bar.*
-
-![Interactive Popover](images/popover-screenshot.png)
+![Popover](images/s1.png)
 *The interactive popover featuring album art, live progress, and media controls.*
 
-## 🚀 Installation
+## Installation
 
 ### Option 1: Manual Installation (Before Official Release)
 1. Download the latest release from the [Releases page](https://github.com/Hajorda/obsidian-mac-now-playing/releases).
@@ -37,10 +32,10 @@ Clicking the status bar item reveals a beautiful interactive popover with album 
 3. Place the folder into your vault's plugin directory: `[YourVault]/.obsidian/plugins/`.
 4. Open Obsidian, go to **Settings > Community plugins**, turn off "Safe mode", and enable **Mac Now Playing**.
 
-### Option 2: Obsidian Community Plugins (Coming Soon)
+### Option 2: Obsidian Community Plugins
 Once approved by the Obsidian team, you will be able to search for "Mac Now Playing" directly in the Community Plugins browser inside Obsidian!
 
-## ⚙️ Settings
+## Settings
 
 You can configure the plugin in the Obsidian settings under "Mac Now Playing":
 - **Media Player:** Switch between Spotify and Apple Music.
@@ -48,7 +43,7 @@ You can configure the plugin in the Obsidian settings under "Mac Now Playing":
 - **Hide When Paused:** Keep your status bar tidy by hiding the track when no music is playing.
 - **Show Album Art / Progress Bar:** Toggle the visual enhancements inside the popover.
 
-## 🛠️ Development
+## Development
 
 If you want to contribute or build the plugin from source:
 
@@ -57,6 +52,6 @@ npm install
 npm run build
 ```
 
-## 👨‍💻 Author
+## Author
 
 Created by **Hajorda**.
